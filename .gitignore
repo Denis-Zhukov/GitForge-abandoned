@@ -1,0 +1,14 @@
+.idea
+
+client/.idea
+client/node_modules
+client/coverage
+client/dist
+client/build
+
+server/.idea
+server/node_modules
+server/coverage
+server/dist
+server/build
+server/repos

@@ -43,6 +43,7 @@ export class AuthController {
             const accessToken = jwt.sign({
                 id: user.id, username: user.username
             }, ACCESS_SECRET, {expiresIn: LIFE_ACCESS_TOKEN});
+
             const [session, founded] = await Session.findOrBuild({
                 where: {
                     accountId: user.id,

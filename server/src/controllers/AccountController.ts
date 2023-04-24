@@ -2,8 +2,8 @@ import {Request, Response} from "express";
 import bcrypt from "bcrypt";
 import {Account} from "../database/models/Account.ts";
 import {QueryLimitOffset} from "./types/QueryLimitOffset.js";
-import {AddAccountDTO} from "../utils/dto/AddAccountDTO.js";
-import {UpdateAccountDTO} from "../utils/dto/UpdateAccountDTO.js";
+import {AddAccountDTO} from "../utils/dto/Account/AddAccountDTO.js";
+import {UpdateAccountDTO} from "../utils/dto/Account/UpdateAccountDTO.js";
 import {ParamsId} from "./types/ParamsId.js";
 
 
@@ -47,7 +47,7 @@ export class AccountController {
 
             const account = await Account.create({
                 email: req.body.email,
-                username: req.body.username,
+                username: req.body.username.toLowerCase(),
                 passwordHash
             });
 

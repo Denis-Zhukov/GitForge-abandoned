@@ -1,5 +1,5 @@
 import Joi from "joi";
-import {AddAccountDTO} from "../../dto/AddAccountDTO.js";
+import {AddAccountDTO} from "../../dto/Account/AddAccountDTO.js";
 
 export const addAccountSchema = Joi.object<AddAccountDTO>
 ({

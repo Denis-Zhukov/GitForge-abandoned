@@ -3,6 +3,7 @@ import {validationMiddleware} from "../middlewares/validationMiddleware.js";
 import {createRepoSchema} from "../utils/validations/Repositories/createRepoSchema.js";
 import {RepositoryController} from "../controllers/RepositoryController.js";
 import {Router} from "express";
+import {deleteRepoSchema} from "../utils/validations/Repositories/deleteRepoSchema.js";
 
 export const repositoryRouter = Router();
 
@@ -16,5 +17,6 @@ repositoryRouter.post(
 repositoryRouter.delete(
     "/delete-repo/:repo",
     authMiddleware(),
+    validationMiddleware(deleteRepoSchema, 'params'),
     RepositoryController.deleteRepo
 );

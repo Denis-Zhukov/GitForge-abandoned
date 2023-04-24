@@ -26,7 +26,7 @@ export class RepositoryController {
             if (!built)
                 return res.status(400).send({
                     error: "Repository already exists",
-                    details: [`${user.username} already has repository with name '${repoName}'`]
+                    details: [`${user.username} already has repository '${repoName}'`]
                 })
 
             await git.init({
@@ -52,7 +52,7 @@ export class RepositoryController {
                     name: repoName
                 }
             })
-            console.log(await Repository.findAll())
+
             if (!repo)
                 return res.status(400).send({
                     error: "No such repository",

@@ -5,6 +5,7 @@ import auth from "basic-auth";
 import process from "process";
 import {pathExists as exists} from "../utils/path-exists.js";
 import {Git} from "node-git-server";
+
 const repoDir = path.join(process.cwd(), "repos");
 const repos = new Git(repoDir, {autoCreate: false});
 const handle = repos.handle.bind(repos);

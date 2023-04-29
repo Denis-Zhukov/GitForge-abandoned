@@ -26,5 +26,8 @@ Confirmation.init({
 }, {
     sequelize,
     tableName: "confirmations",
-    timestamps: false
+    timestamps: false,
+    indexes: [
+        {unique: true, fields: ['uuid', 'user_id']}
+    ]
 })

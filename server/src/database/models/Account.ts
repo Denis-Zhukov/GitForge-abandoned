@@ -1,22 +1,29 @@
-import {DataTypes, HasManyGetAssociationsMixin, Model, Optional} from "sequelize";
+import {DataTypes, HasManyGetAssociationsMixin, Model, Optional, NonAttribute, Association} from "sequelize";
 import {sequelize} from "../sequelize.ts";
-import {Session} from "./Session.js";
+import {Session} from "./Session.ts";
+import {Role} from "./Role.js";
 
 interface AccountAttributes {
     id: number,
     username: string,
     email: string,
-    passwordHash: string,
-    // followers: number
+    passwordHash: string
 }
 
 interface AccountCreationAttributes extends Optional<AccountAttributes, 'id'> {
 }
 
 export class Account extends Model<AccountAttributes, AccountCreationAttributes> {
-    createdAt?: Date;
+    declare getSessions: HasManyGetAssociationsMixin<Session>;
+    declare getRoles: HasManyGetAssociationsMixin<Role>;
 
-    public getSessions!: HasManyGetAssociationsMixin<Session>;
+    declare sessions?: NonAttribute<Session[]>;
+    declare roles?: NonAttribute<Role[]>;
+
+    declare static associations: {
+        sessions: Association<Account, Session>;
+        roles: Association<Account, Role>;
+    };
 }
 
 Account.init({
@@ -40,11 +47,6 @@ Account.init({
         allowNull: false,
         field: "password_hash"
     },
-    // followers: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    //     defaultValue: 0
-    // },
 }, {
     sequelize,
     tableName: "accounts",

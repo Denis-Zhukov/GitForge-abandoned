@@ -1,0 +1,11 @@
+@import "src/styles/variables";
+
+.input {
+  background: $input-bg;
+  color: $input-color;
+
+  border: 2px solid $main-color;
+  outline: none;
+
+  padding: .35rem .5rem;
+}

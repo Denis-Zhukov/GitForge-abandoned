@@ -18,9 +18,9 @@ import {Issue} from "./models/Issue.ts";
 import {IssueMessage} from "./models/IssueMessage.ts";
 
 //ACCOUNT-SESSIONS
-Account.hasMany(Session, {foreignKey: "account_id"});
+Account.hasMany(Session, {foreignKey: "accountId"});
 //ACCOUNT-REPOSITORIES
-Account.hasMany(Repository, {foreignKey: "owner_id"});
+Account.hasMany(Repository, {foreignKey: "ownerId"});
 
 //START ##### ACCOUNTS-ROLES
 Account.belongsToMany(Role, {
@@ -34,7 +34,7 @@ Role.belongsToMany(Account, {
     foreignKey: "role_id"
 });
 //END ##### ACCOUNTS-ROLES
-Account.hasOne(Confirmation, {foreignKey: "user_id"});
+Account.hasOne(Confirmation, {foreignKey: "userId"});
 
 //START ##### ACCOUNTS-REPOSITORIES | COLLABORATORS
 Account.belongsToMany(Repository, {
@@ -49,14 +49,14 @@ Repository.belongsToMany(Account, {
 //END ##### ACCOUNTS-REPOSITORIES | COLLABORATORS
 
 //REPOSITORY-ISSUES
-Repository.hasMany(Issue, {foreignKey: "repository_id"});
+Repository.hasMany(Issue, {foreignKey: "repositoryId"});
 // ACCOUNT-ISSUES
-Account.hasMany(Issue, {foreignKey: "creator_id"});
+Account.hasMany(Issue, {foreignKey: "creatorId"});
 
 //ISSUE-MESSAGES
-Issue.hasMany(IssueMessage, {foreignKey: "issue_id"});
+Issue.hasMany(IssueMessage, {foreignKey: "issueId"});
 //ACCOUNT-MESSAGES
-Account.hasMany(IssueMessage, {foreignKey: "account_id"})
+Account.hasMany(IssueMessage, {foreignKey: "accountId"})
 
 
 await Account.sync();

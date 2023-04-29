@@ -8,7 +8,6 @@ dotenv.config();
 const ACCESS_SECRET = process.env.ACCESS_SECRET!;
 
 export const authMiddleware = (roles: string[] = []) => (req: Request<any>, res: Response, next: NextFunction) => {
-    console.log('here2')
     try {
         const token = req.headers.authorization?.split(' ')?.[1]!;
         const user = <UserJwtPayload>jwt.verify(token, ACCESS_SECRET);

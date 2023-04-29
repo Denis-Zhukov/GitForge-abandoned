@@ -2,9 +2,14 @@ import {Request, Response} from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as dotenv from 'dotenv';
-import {Account} from "../database/models/Account.js";
-import {Session} from "../database/models/Session.js";
-import {UserJwtPayload} from "../utils/types/UserJwtPayload.js";
+import {Account} from "../database/models/Account.ts";
+import {Session} from "../database/models/Session.ts";
+import {UserJwtPayload} from "../utils/types/UserJwtPayload.ts";
+import {Op} from "sequelize";
+import {Mailer} from "../services/Mailer.ts";
+import {v4} from "uuid";
+import {Confirmation} from "../database/models/Confirmation.ts";
+import {ParamsUuid} from "./types/ParamsUuid.ts";
 
 dotenv.config();
 
@@ -14,7 +19,56 @@ const LIFE_ACCESS_TOKEN = process.env.LIFE_ACCESS_TOKEN || '5 min';
 const LIFE_REFRESH_TOKEN = process.env.LIFE_REFRESH_TOKEN || '30 days';
 
 export class AuthController {
-    public static async signIn(req: Request, res: Response) {
+    public static async signUp(req: Request, res: Response) {
+        //Check if there is data about the device
+        if (!req.headers["user-agent"])
+            return res.status(401).send({
+                error: "Identification occurs from an unknown device",
+                details: ["Identification occurs from an unknown device"]
+            });
+
+        let {username, password, email} = req.body;
+        username = username.toLowerCase();
+
+        try {
+            const [userModel, built] = await Account.findOrBuild({
+                where: {[Op.or]: [{username}, {email}]}
+            });
+
+            if (!built) {
+                const user = userModel.get();
+                const detail = user.username === username ?
+                    `User with username '${username}' already exists` :
+                    `User with email '${email}' already exists`
+
+                return res.status(409).send({
+                    error: "User already exists",
+                    details: [detail]
+                });
+            }
+
+            const passwordHash = await bcrypt.hash(password, 10);
+            userModel.set({
+                username,
+                passwordHash,
+                email
+            });
+            const account = await userModel.save();
+
+            const uuid = v4();
+            await Confirmation.create({
+                uuid,
+                userId: account.get().id
+            });
+
+            await Mailer.sendEmailConfirmation(email, uuid);
+            res.send(account);
+        } catch (e) {
+            res.sendStatus(401);
+        }
+    }
+
+    public static async signIn(req: Request, res: Response)     {
         //Check if there is data about the device
         if (!req.headers["user-agent"])
             return res.status(401).send({
@@ -23,13 +77,13 @@ export class AuthController {
             });
 
         let {username, password} = req.body;
-        username = username.toLowerCase();
-
         try {
             const userModel = await Account.findOne({where: {username}});
             if (!userModel) return res.status(401).send({
                 error: "No such user", details: [`Account "${username}" not found`]
             });
+
+            const roles = (await userModel.getRoles()).map(role => role.get().name);
             const user = userModel.get();
 
             const correspond = await bcrypt.compare(password, user.passwordHash);
@@ -37,14 +91,20 @@ export class AuthController {
                 error: "Wrong password", details: [`Wrong password`]
             });
 
+            const confirmation = await Confirmation.findOne({where: {userId: user.id}});
+            if (confirmation) return res.status(401).send({
+                error: "Email not verified", details: [`To authorize, you must confirm your email`]
+            });
+
+
             const refreshToken = jwt.sign({
-                id: user.id, username: user.username
+                id: user.id, username: user.username, roles
             }, REFRESH_SECRET, {expiresIn: LIFE_REFRESH_TOKEN});
             const accessToken = jwt.sign({
-                id: user.id, username: user.username
+                id: user.id, username: user.username, roles
             }, ACCESS_SECRET, {expiresIn: LIFE_ACCESS_TOKEN});
 
-            const [session, founded] = await Session.findOrBuild({
+            const [session, built] = await Session.findOrBuild({
                 where: {
                     accountId: user.id,
                     device: req.headers["user-agent"]!
@@ -99,7 +159,7 @@ export class AuthController {
         }
     }
 
-    static async logout(req: Request, res: Response) {
+    public static async logout(req: Request, res: Response) {
         const refreshToken = req.cookies.refresh_token;
         res.cookie('refresh_token', '', {expires: new Date(0)});
         try {
@@ -110,6 +170,23 @@ export class AuthController {
         } catch (e) {
             res.status(500).send({error: "Problem deleting token", details: ["Problem deleting token"]});
         }
+    }
 
+    public static async verifyEmail(req: Request<ParamsUuid, {}, {}, {}>, res: Response) {
+        try {
+            const uuid = req.params.uuid;
+            const confirmation = await Confirmation.findOne({where: {uuid}});
+            if (!confirmation)
+                return res.sendStatus(404);
+
+            await confirmation.destroy();
+            res.sendStatus(200);
+        } catch (e) {
+            res.status(500).send({error: "Problem deleting token", details: ["Problem deleting token"]});
+        }
+    }
+
+    public static async getRoles(req: Request, res: Response) {
+        res.send(res.locals.user.roles);
     }
 }

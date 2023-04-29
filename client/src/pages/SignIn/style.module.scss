@@ -1,0 +1,54 @@
+@import "src/styles/variables";
+
+.wrapper, .authBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wrapper {
+  height: 100vh;
+  align-items: center;
+
+  background: darken($main-color, 5);
+}
+
+.title {
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.authBlock {
+  padding: 1rem;
+  width: min(100vw, 325px);
+
+  box-shadow: 0 0 5px black;
+  background: $main-color;
+
+  label {
+    font-size: 1.1rem;
+  }
+
+  .input {
+    font-size: 1.25rem;
+    margin-bottom: .5rem;
+
+    color: black;
+    background: white;
+  }
+
+  .button {
+    align-self: center;
+    width: min(100vw, 150px);
+
+    border: 2px solid darken($main-color, 15);
+    transition: background-color .15s ease-in-out;
+
+
+    &:hover {
+      background: darken($main-color, 15);
+    }
+  }
+}
+
+

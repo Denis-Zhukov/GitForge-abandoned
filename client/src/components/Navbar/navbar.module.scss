@@ -1,0 +1,47 @@
+@import "src/styles/variables";
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: .25rem;
+
+
+  img[alt="logo"] {
+    width: 50px;
+    height: 50px;
+  }
+
+  .authButtons {
+    display: flex;
+    gap: 10px;
+
+
+    a {
+      font-size: 1.05rem;
+      padding: .55rem 1.2rem;
+      text-decoration: none;
+      color: #FFFFFF;
+      background: $main-color;
+      transition: all .2s ease-in-out;
+
+      &:hover {
+        color: #FFFFFF;
+        background: darken($main-color, 15);
+      }
+    }
+
+    .signIn {
+      background: transparent;
+      border: 2px solid $main-color;
+      color: $main-color;
+
+
+      &:hover {
+        border-color: darken($main-color, 15);
+      }
+
+    }
+  }
+}

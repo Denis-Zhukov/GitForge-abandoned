@@ -1,0 +1,14 @@
+@import "src/styles/variables";
+
+.button {
+  font-size: 1rem;
+  padding: .5rem 1rem;
+
+  cursor: pointer;
+
+  color: $btn-color;
+  background: $btn-bg;
+
+  outline: none;
+  border: none;
+}

@@ -45,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/sass": "^1.45.0"
   }
 }

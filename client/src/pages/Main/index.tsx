@@ -1,6 +1,7 @@
 import {Navbar} from "../../components/Navbar";
 import {usePageTitle} from "../../hooks";
 import s from "./style.module.scss";
+import {Footer} from "../../components/Footer";
 
 export const Main = () => {
     usePageTitle("GitForge");
@@ -42,7 +43,7 @@ export const Main = () => {
                         plan releases.</p>
                     <div><img src="/images/tools.png" alt="tools"/></div>
                 </div>
-                
+
                 <p>To get started with GitForge, simply create an account and create a new repository. You can then
                     clone the repository to your local machine and start working on your code. GitForge supports all Git
                     commands and workflows, so you can use it just like any other Git hosting service.
@@ -52,6 +53,7 @@ export const Main = () => {
                     developer or part of a large team, GitForge provides a powerful and easy-to-use platform for
                     managing your code and collaborating with others.</p>
             </main>
+            <Footer/>
         </div>
     )
 }

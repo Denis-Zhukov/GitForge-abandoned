@@ -29,7 +29,7 @@ export const Navbar: React.FC<Props> = ({logo}) => {
     return <>
         {isScrolled && <div className={s.emptyNavbar}></div>}
         <nav className={navbarClassName}>
-            <img src={logo} alt="logo"/>
+            <Link to={Path.MAIN}><img src={logo} alt="logo"/></Link>
 
             <div className={s.authButtons}>
                 {!authorized && <Link to={Path.LOGIN} className={s.signIn}>Sign In</Link>}

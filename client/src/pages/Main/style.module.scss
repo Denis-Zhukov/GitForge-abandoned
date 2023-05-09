@@ -4,3 +4,13 @@
   width: min($large-desktop, 100vw);
   margin: 0 auto;
 }
+
+.title {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.orange {
+  color: $main-color;
+}

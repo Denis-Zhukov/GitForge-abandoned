@@ -10,7 +10,7 @@
   height: 100vh;
   align-items: center;
 
-  background: darken($main-color, 5);
+  background: darken($main-color, 10);
 }
 
 .title {
@@ -24,9 +24,18 @@
 
   box-shadow: 0 0 5px black;
   background: $main-color;
+  position: relative;
+
+  .spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
 
   label {
-    font-size: 1.1rem;
+    display: block;
+    color: white;
   }
 
   .input {
@@ -49,6 +58,8 @@
       background: darken($main-color, 15);
     }
   }
+
+
 }
 
 

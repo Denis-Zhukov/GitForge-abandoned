@@ -1,8 +1,8 @@
 import axios from "axios";
-import {urls} from "./urls";
+import {Url} from "../constans/Url";
 
 export const $api = axios.create({
-    baseURL: urls.apiUrl,
+    baseURL: Url.BASE_URL,
     withCredentials: true
 });
 
@@ -16,7 +16,7 @@ $api.interceptors.response.use((config) => config, async (error) => {
     if (error.response?.status === 401 && error.config && !error.config._isRertry) {
         request._isRetry = true;
         try {
-            const response = await axios.post(urls.refreshAccessUrl, {}, {withCredentials: true});
+            const response = await axios.post(Url.REFRESH_ACCESS_TOKEN, {}, {withCredentials: true});
             localStorage.setItem("access_token", response.data.access_token)
             return $api.request(request);
         } catch (e) {

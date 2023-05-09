@@ -1,26 +1,30 @@
-import React, {useEffect, useMemo} from "react";
+import React, {useEffect, useRef} from "react";
 import {createPortal} from "react-dom";
 import s from "./style.module.scss"
 
-const modalRootElement = document.getElementById("modal")!;
+const modalElement = document.getElementById("modal")!;
 
 interface Props {
     open: boolean,
-    close: () => void,
+    onClose: () => void,
     children: string | JSX.Element | JSX.Element[]
 }
 
-export const Modal: React.FC<Props> = ({open, close, children}) => {
-    const element = useMemo(() => {
-        return document.createElement("div");
-    }, []);
+export const Modal: React.FC<Props> = ({open, onClose, children}) => {
+    const element = useRef<HTMLDivElement>(document.createElement("div"));
 
     useEffect(() => {
-        modalRootElement.appendChild(element)
+        modalElement.appendChild(element.current);
+        const el = element.current;
         return () => {
-            modalRootElement.removeChild(element)
+            modalElement.removeChild(el)
         };
-    })
+    }, [element])
 
-    return createPortal(open ? <div className={s.modal} onClick={close}>{children}</div> : null, modalRootElement);
+    return createPortal(open && <div className={s.modalBackdrop} onClick={onClose}>
+        <div className={s.modal} onClick={(e) => e.stopPropagation()}>
+            <div className={s.modalClose} onClick={onClose}>X</div>
+            <div>{children}</div>
+        </div>
+    </div>, modalElement);
 }

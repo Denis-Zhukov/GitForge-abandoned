@@ -12,3 +12,7 @@
   outline: none;
   border: none;
 }
+
+.button:disabled {
+  cursor: not-allowed;
+}

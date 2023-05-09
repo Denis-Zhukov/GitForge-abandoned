@@ -4,8 +4,12 @@
   background: $input-bg;
   color: $input-color;
 
-  border: 2px solid $main-color;
+  border: none;
   outline: none;
 
   padding: .35rem .5rem;
+}
+
+.input:disabled{
+  cursor: not-allowed;
 }

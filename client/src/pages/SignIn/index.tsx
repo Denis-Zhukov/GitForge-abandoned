@@ -1,48 +1,68 @@
-import s from "./style.module.scss";
-import React, {ChangeEvent, useCallback, useState} from "react";
-import {AuthService} from "../../api/services/AuthService";
-import {useNavigate} from "react-router-dom";
-import {useAppDispatch} from "../../hooks";
-import {setRoles} from "../../store/slices/AuthSlice";
-import {usePageTitle} from "../../hooks/usePageTitle";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {Navigate} from "react-router-dom";
+import {useActions, useAppSelector, useCreateOnChangeHandler, usePageTitle} from "../../hooks";
 import {Input} from "../../components/Input";
 import {Button} from "../../components/Button";
+import {CircleLoader} from "react-spinners";
+import {Modal} from "../../components/Modal";
+import {isErrorResponse} from "../../utils/isErrorReponse";
+import {Path} from "../../constans/Path";
+import s from "./style.module.scss";
 
 export const SignIn = () => {
     usePageTitle("GitForge | Sign In");
 
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const navigate = useNavigate();
-    const dispatch = useAppDispatch();
 
-    const onChangeUsername = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setUsername(e.target.value);
+    const onChangeUsername = useCreateOnChangeHandler(setUsername);
+    const onChangePassword = useCreateOnChangeHandler(setPassword);
+
+    const authorized = useAppSelector(state => state.auth.authorized);
+
+    const {loginThunk} = useActions();
+    const {isLoading, error} = useAppSelector(state => state.auth);
+
+    const [modelOpened, setModelOpened] = useState(false);
+    useEffect(() => {
+        if (!isLoading && error) setModelOpened(true);
+    }, [isLoading, error]);
+
+
+    const handleSignIn = useCallback(() => {
+        loginThunk({login: username, password});
+    }, [username, password, loginThunk]);
+
+    const handleCloseModel = useCallback(() => {
+        setModelOpened(false)
     }, []);
 
-    const onChangePassword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
-    }, []);
+    const errors = useMemo(() => {
+        if (isErrorResponse(error)) {
+            return error.data.details.map((detail) => <p key={detail}>{detail}</p>)
+        } else if (error) return <p>An unknown error has occurred. Please wait and try again.</p>
+    }, [error]);
 
-    const handleSignIn = useCallback(async () => {
-        const response = await AuthService.login(username, password);
-        if (response.status === 200) {
-            dispatch(setRoles(["user"]));
-            navigate("/");
-        }
-    }, [username, password, dispatch, navigate]);
+    return authorized ? <Navigate to={Path.MAIN}/> :
+        <div className={s.wrapper}>
+            <h1 className={s.title}>Sign In</h1>
+            <div className={s.authBlock}>
 
-    return <div className={s.wrapper}>
-        <h1 className={s.title}>Sign In</h1>
-        <div className={s.authBlock}>
-            <label htmlFor="username-input">Username:</label>
-            <Input id="username-input" className={s.input} type="text" value={username} onChange={onChangeUsername}/>
+                {isLoading && <CircleLoader className={s.spinner}/>}
 
-            <label htmlFor="password-input">Password:</label>
-            <Input id="password-input" className={s.input} type="password" value={password}
-                   onChange={onChangePassword}/>
+                <label htmlFor="username-input">Username:</label>
+                <Input id="username-input" className={s.input} type="text" value={username} onChange={onChangeUsername}
+                       disabled={isLoading}/>
 
-            <Button className={s.button} onClick={handleSignIn}>Sign In</Button>
+                <label htmlFor="password-input">Password:</label>
+                <Input id="password-input" className={s.input} type="password" value={password}
+                       onChange={onChangePassword} disabled={isLoading}/>
+
+                <Button className={s.button} onClick={handleSignIn} disabled={isLoading}>Sign In</Button>
+            </div>
+
+            <Modal open={modelOpened} onClose={handleCloseModel}>
+                <div>{errors}</div>
+            </Modal>
         </div>
-    </div>
 }

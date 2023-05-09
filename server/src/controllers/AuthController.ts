@@ -10,6 +10,9 @@ import {Mailer} from "../services/Mailer.ts";
 import {v4} from "uuid";
 import {Confirmation} from "../database/models/Confirmation.ts";
 import {ParamsUuid} from "./types/ParamsUuid.ts";
+import {Role} from "../database/models/Role.js";
+import {AccountRoles} from "../database/models/AccountRoles.js";
+import {sequelize} from "../database/sequelize.js";
 
 dotenv.config();
 
@@ -29,6 +32,9 @@ export class AuthController {
 
         let {username, password, email} = req.body;
         username = username.toLowerCase();
+        email = email.toLowerCase();
+
+        const t = await sequelize.transaction();
 
         try {
             const [userModel, built] = await Account.findOrBuild({
@@ -41,7 +47,7 @@ export class AuthController {
                     `User with username '${username}' already exists` :
                     `User with email '${email}' already exists`
 
-                return res.status(409).send({
+                return res.status(409).json({
                     error: "User already exists",
                     details: [detail]
                 });
@@ -53,22 +59,35 @@ export class AuthController {
                 passwordHash,
                 email
             });
+
+            const userRole = (await Role.findOne({where: {name: "user"}}))!;
             const account = await userModel.save();
 
-            const uuid = v4();
-            await Confirmation.create({
-                uuid,
-                userId: account.get().id
+
+            await AccountRoles.create({
+                accountId: account.get().id,
+                roleId: userRole.get().id
             });
+            await t.commit();
+
+            const uuid = v4();
+
+            const instance = account.get();
+            await Confirmation.create({uuid, userId: instance.id});
 
             await Mailer.sendEmailConfirmation(email, uuid);
-            res.send(account);
+            res.send({
+                id: instance.id,
+                email: instance.email,
+                username: instance.username
+            });
         } catch (e) {
+            await t.rollback();
             res.sendStatus(401);
         }
     }
 
-    public static async signIn(req: Request, res: Response)     {
+    public static async signIn(req: Request, res: Response) {
         //Check if there is data about the device
         if (!req.headers["user-agent"])
             return res.status(401).send({
@@ -77,6 +96,8 @@ export class AuthController {
             });
 
         let {username, password} = req.body;
+        username = username.toLowerCase();
+
         try {
             const userModel = await Account.findOne({where: {username}});
             if (!userModel) return res.status(401).send({
@@ -127,8 +148,8 @@ export class AuthController {
             res.cookie("refresh_token", refreshToken, {
                 httpOnly: true,
                 sameSite: "strict",
-                maxAge: 1000 * 60 * 60 * 24 * 365 * 10
-            }).send({access_token: accessToken});
+                maxAge: 30 * 24 * 60 * 60 * 1000
+            }).send({access_token: accessToken, roles, username: user.username});
         } catch (e) {
             res.sendStatus(401);
         }
@@ -161,6 +182,7 @@ export class AuthController {
 
     public static async logout(req: Request, res: Response) {
         const refreshToken = req.cookies.refresh_token;
+        console.log("cookie", res.cookie)
         res.cookie('refresh_token', '', {expires: new Date(0)});
         try {
             const session = await Session.findOne({where: {refreshToken}})
@@ -186,7 +208,7 @@ export class AuthController {
         }
     }
 
-    public static async getRoles(req: Request, res: Response) {
-        res.send(res.locals.user.roles);
+    public static async checkAuth(req: Request, res: Response) {
+        res.send(res.locals.user);
     }
 }

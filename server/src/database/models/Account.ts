@@ -1,7 +1,16 @@
-import {DataTypes, HasManyGetAssociationsMixin, Model, Optional, NonAttribute, Association} from "sequelize";
+import {
+    DataTypes,
+    HasManyGetAssociationsMixin,
+    Model,
+    Optional,
+    NonAttribute,
+    Association,
+    HasManyAddAssociationMixin
+} from "sequelize";
 import {sequelize} from "../sequelize.ts";
 import {Session} from "./Session.ts";
 import {Role} from "./Role.js";
+import {AccountRoles} from "./AccountRoles.js";
 
 interface AccountAttributes {
     id: number,

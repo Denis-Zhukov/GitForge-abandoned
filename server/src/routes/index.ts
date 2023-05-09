@@ -8,12 +8,11 @@ import * as useragent from "express-useragent";
 
 export const rootRouter = Router();
 
-rootRouter.use(express.json());
 rootRouter.use(express.urlencoded({extended: true}));
 rootRouter.use(morgan("tiny"));
 
-rootRouter.use(accountRouter);
 rootRouter.use(authRouter);
+rootRouter.use(accountRouter);
 rootRouter.use(repositoryRouter);
 rootRouter.use(gitRouter);
 

@@ -9,15 +9,17 @@ import "./database/init-models.ts";
 dotenv.config();
 
 const PORT = Number(process.env.PORT) || 8000;
-const HOST = process.env.HOST || "localhost";
+const HOST = process.env.HOST || "127.0.0.1";
 
 const app = express();
 
+app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     credentials: true,
     origin: 'http://localhost:3000'
 }))
+
 app.use(rootRouter);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

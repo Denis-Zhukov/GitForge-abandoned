@@ -8,11 +8,11 @@ import {authMiddleware} from "../middlewares/authMiddleware.js";
 
 export const authRouter = Router();
 
-authRouter.get(
-    "/my-roles",
-    authMiddleware(),
-    AuthController.getRoles
-)
+authRouter.post(
+    "/sign-up",
+    validationMiddleware(signUpSchema, 'body'),
+    AuthController.signUp
+);
 
 authRouter.post(
     "/sign-in",
@@ -21,9 +21,19 @@ authRouter.post(
 );
 
 authRouter.post(
-    "/sign-up",
-    validationMiddleware(signUpSchema, 'body'),
-    AuthController.signUp
+    "/check-auth",
+    authMiddleware(),
+    AuthController.checkAuth
+)
+
+authRouter.post(
+    "/refresh",
+    AuthController.refreshAccessToken
+)
+
+authRouter.post(
+    "/log-out",
+    AuthController.logout
 );
 
 authRouter.get(

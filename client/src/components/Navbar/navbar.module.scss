@@ -7,7 +7,6 @@
   justify-content: space-between;
   padding: .25rem;
   max-width: min($large-desktop, 100vw);
-  margin: 0 auto;
 
 
   img[alt="logo"] {
@@ -20,7 +19,7 @@
     gap: 10px;
 
 
-    a {
+    > a {
       font-size: 1.05rem;
       padding: .55rem 1.2rem;
       text-decoration: none;
@@ -55,6 +54,8 @@
   right: 0;
   z-index: 999;
   background: $main-bg;
+
+  margin: 0 auto;
 }
 
 .emptyNavbar {

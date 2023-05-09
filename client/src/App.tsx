@@ -18,7 +18,8 @@ export const App = () => {
 
     return (
         <Routes>
-            <Route path={Path.MAIN} element={<Main/>}/>
+            <Route path={Path.ANY} element={<Main/>}/>
+
             <Route path={Path.LOGIN} element={<SignIn/>}/>
             <Route path={Path.REGISTER} element={<SignUp/>}/>
             <Route path={Path.LOGOUT} element={<LogOut/>}/>

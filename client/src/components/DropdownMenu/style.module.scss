@@ -1,0 +1,43 @@
+@import "/src/styles/variables";
+
+.dropdown {
+  display: block;
+  position: relative;
+  width: 100px;
+  background: blue;
+}
+
+.button {
+  display: block;
+  width: 100%;
+
+  padding: 1rem;
+  outline: none;
+
+  cursor: pointer;
+  color: white;
+  border: 1px solid $main-color;
+  background: $main-bg;
+}
+
+.menu {
+  width: 100%;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid $main-color;
+  background: $main-bg;
+
+
+  a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: .25rem .5rem;
+    border: 1px solid $main-color;
+
+    &:hover {
+      background: $main-color;
+    }
+  }
+}

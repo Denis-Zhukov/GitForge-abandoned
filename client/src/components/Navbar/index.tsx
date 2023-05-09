@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import {useAppSelector} from "../../hooks";
 import {Link} from "react-router-dom";
 import {Path} from "../../constans/Path"
+import {DropdownMenu} from "../DropdownMenu";
 import s from "./navbar.module.scss";
 
 interface Props {
@@ -34,7 +35,7 @@ export const Navbar: React.FC<Props> = ({logo}) => {
             <div className={s.authButtons}>
                 {!authorized && <Link to={Path.LOGIN} className={s.signIn}>Sign In</Link>}
                 {!authorized && <Link to={Path.REGISTER}>Sign Up</Link>}
-                {authorized && <Link to={Path.LOGOUT}>Log Out</Link>}
+                {authorized && <DropdownMenu/>}
             </div>
         </nav>
     </>

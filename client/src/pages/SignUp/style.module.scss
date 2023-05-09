@@ -10,7 +10,7 @@
   height: 100vh;
   align-items: center;
 
-  background: darken($main-color, 10);
+  background: $main-bg;
 }
 
 .title {
@@ -21,9 +21,6 @@
 .authBlock {
   padding: 1rem;
   width: min(100vw, 325px);
-
-  box-shadow: 0 0 5px black;
-  background: $main-color;
   position: relative;
 
   .spinner {
@@ -40,10 +37,17 @@
 
   .input {
     font-size: 1.25rem;
-    margin: 0 0 .5rem 0;
-    color: black;
-    background: white;
-    border: 0;
+    margin-bottom: 1rem;
+
+    color: $input-color;
+    background: none;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid $main-color;
+
+    &::placeholder {
+      font-size: 18px;
+    }
   }
 
   .button {
@@ -58,10 +62,11 @@
       background: darken($main-color, 15);
     }
   }
-
-  .red-border {
-    border: 2px solid red;
-  }
 }
+
+.redBorder {
+  border-bottom: 2px solid red !important;
+}
+
 
 

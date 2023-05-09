@@ -6,6 +6,8 @@
   align-items: center;
   justify-content: space-between;
   padding: .25rem;
+  max-width: min($large-desktop, 100vw);
+  margin: 0 auto;
 
 
   img[alt="logo"] {
@@ -43,4 +45,18 @@
       }
     }
   }
+}
+
+.scrolled {
+  max-width: calc(min($large-desktop, 100vw) - .5rem);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: $main-bg;
+}
+
+.emptyNavbar {
+  height: 58px;
 }

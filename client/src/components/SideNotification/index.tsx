@@ -13,7 +13,6 @@ interface Props {
 
 export const SideNotification: React.FC<Props> = ({open, onClose, delay = 5000, children}) => {
     const element = useRef<HTMLDivElement>(document.createElement("div"));
-    const notification = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         sideElement.appendChild(element.current)
@@ -24,11 +23,6 @@ export const SideNotification: React.FC<Props> = ({open, onClose, delay = 5000, 
     }, [])
 
     useEffect(() => {
-        if (notification.current)
-            notification.current.style.animationDuration = `${delay}ms`;
-    }, [delay])
-
-    useEffect(() => {
         if (open) {
             const timer = setTimeout(() => {
                 onClose();
@@ -37,7 +31,7 @@ export const SideNotification: React.FC<Props> = ({open, onClose, delay = 5000, 
         }
     }, [onClose, open, delay])
 
-    return createPortal(open && <div className={s.backdrop} onClick={onClose} ref={notification}>
+    return createPortal(open && <div className={s.backdrop} onClick={onClose} style={{animationDuration: `${delay}ms`}}>
         {children}
     </div>, sideElement);
 }

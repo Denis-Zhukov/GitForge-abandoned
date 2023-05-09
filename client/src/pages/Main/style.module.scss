@@ -1,16 +1,98 @@
 @import "src/styles/variables";
 
 .wrapper {
-  width: min($large-desktop, 100vw);
+  max-width: min($large-desktop, 100vw);
   margin: 0 auto;
+  padding: 0;
+}
+
+.title, .subtitle {
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 1rem;
 }
 
 .title {
-  text-align: center;
-  margin: 0;
-  padding: 0;
+  font-size: 48px;
+}
+
+.subtitle {
+  font-size: 32px;
+  padding-bottom: 3rem;
 }
 
 .orange {
   color: $main-color;
+}
+
+.furnace, .anvil, .stool, .tools {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  > * {
+    flex-basis: 450px;
+  }
+
+  p {
+    display: block;
+    flex-grow: 0.6;
+  }
+
+  div img {
+    width: 100%;
+  }
+}
+
+main p {
+  color: white;
+  font-size: 18px;
+}
+
+.furnace p, .stool p {
+  text-align: right;
+}
+
+
+.anvil p, .tools p {
+  text-align: left;
+}
+
+.tools {
+  margin-bottom: 5rem;
+}
+
+.tools + p, .tools + p + p {
+  font-size: 16px;
+}
+
+@media screen and (max-width: $large-desktop) {
+  main {
+    padding: .75rem;
+  }
+}
+
+@media screen and (max-width: $tablet) {
+  .furnace, .anvil, .stool, .tools {
+    align-items: center;
+
+    > * {
+      flex-basis: auto;
+    }
+
+    p {
+      text-align: center;
+    }
+  }
+
+  .furnace, .anvil, .tools {
+    flex-direction: column;
+  }
+
+  .stool {
+    flex-direction: column-reverse;
+  }
 }

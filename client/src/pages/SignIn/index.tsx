@@ -39,7 +39,7 @@ export const SignIn = () => {
 
     const errors = useMemo(() => {
         if (isErrorResponse(error)) {
-            return error.data.details.map((detail) => <p key={detail}>{detail}</p>)
+            return error.details.map((detail) => <p key={detail}>{detail}</p>)
         } else if (error) return <p>An unknown error has occurred. Please wait and try again.</p>
     }, [error]);
 
@@ -48,15 +48,13 @@ export const SignIn = () => {
             <h1 className={s.title}>Sign In</h1>
             <div className={s.authBlock}>
 
-                {isLoading && <CircleLoader className={s.spinner}/>}
+                {isLoading && <CircleLoader className={s.spinner} color="white"/>}
 
-                <label htmlFor="username-input">Username:</label>
                 <Input id="username-input" className={s.input} type="text" value={username} onChange={onChangeUsername}
-                       disabled={isLoading}/>
+                       disabled={isLoading} placeholder="username"/>
 
-                <label htmlFor="password-input">Password:</label>
                 <Input id="password-input" className={s.input} type="password" value={password}
-                       onChange={onChangePassword} disabled={isLoading}/>
+                       onChange={onChangePassword} disabled={isLoading} placeholder="password"/>
 
                 <Button className={s.button} onClick={handleSignIn} disabled={isLoading}>Sign In</Button>
             </div>

@@ -59,7 +59,7 @@ Issue.hasMany(IssueMessage, {foreignKey: "issueId"});
 Account.hasMany(IssueMessage, {foreignKey: "accountId"})
 
 
-await Account.sync();
+await Account.sync({alter:true});
 await Role.sync();
 await AccountRoles.sync();
 

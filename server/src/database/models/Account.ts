@@ -16,7 +16,10 @@ interface AccountAttributes {
     id: number,
     username: string,
     email: string,
-    passwordHash: string
+    passwordHash: string,
+    profession?: string
+    avatar?: string
+    summary?: string
 }
 
 interface AccountCreationAttributes extends Optional<AccountAttributes, 'id'> {
@@ -56,6 +59,19 @@ Account.init({
         allowNull: false,
         field: "password_hash"
     },
+    
+    avatar: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    summary: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    profession: {
+        type: DataTypes.STRING,
+        allowNull: true
+    }
 }, {
     sequelize,
     tableName: "accounts",

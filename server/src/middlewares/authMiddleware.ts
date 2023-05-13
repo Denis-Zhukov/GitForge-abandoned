@@ -17,6 +17,7 @@ export const authMiddleware = (roles: string[] = []) => (req: Request<any>, res:
         res.locals.user = user;
         next();
     } catch (e) {
+        console.log(e)
         res.sendStatus(401);
     }
 }

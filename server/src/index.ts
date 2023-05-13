@@ -5,6 +5,7 @@ import {rootRouter} from "./routes/index.ts";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import "./database/init-models.ts";
+import {uploadImageMiddleware} from "./middlewares/uploadImageMiddleware.js";
 
 dotenv.config();
 
@@ -13,12 +14,16 @@ const HOST = process.env.HOST || "127.0.0.1";
 
 const app = express();
 
-app.use(express.json());
-app.use(cookieParser());
 app.use(cors({
     credentials: true,
     origin: 'http://localhost:3000'
 }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+
+app.use(express.static("public"));
+
 
 app.use(rootRouter);
 

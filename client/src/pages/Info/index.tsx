@@ -14,7 +14,7 @@ export const Info = () => {
             <motion.div variants={leftSlide}>
                 <img src="/images/furnace.png" alt="furnace"/>
             </motion.div>
-            <motion.p variants={rightSlide}>GitForge is a Git hosting service that provides
+            <motion.p variants={rightSlide} className={s.mainText}>GitForge is a Git hosting service that provides
                 developers with a
                 reliable and secure platform to
                 manage their code repositories, collaborate with team members, and deploy applications. The
@@ -32,7 +32,7 @@ export const Info = () => {
         </motion.h2>
 
         <motion.div initial="hidden" whileInView="visible" className={s.anvil}>
-            <motion.p variants={leftSlide}><span
+            <motion.p variants={leftSlide} className={s.mainText}><span
                 className={s.orange}>Unlimited code</span> hosting with Git
                 repositories, making it easy to
                 manage your projects and
@@ -48,7 +48,7 @@ export const Info = () => {
             <motion.div variants={leftSlide}>
                 <img src="/images/stool.png" alt="stool"/>
             </motion.div>
-            <motion.p variants={leftSlide}>GitForge is built with security in mind, providing
+            <motion.p variants={leftSlide} className={s.mainText}>GitForge is built with security in mind, providing
                 advanced security
                 features such as <span
                     className={s.orange}>two-factor authentication</span>, access control,
@@ -57,7 +57,7 @@ export const Info = () => {
         </motion.div>
 
         <motion.div initial="hidden" whileInView="visible" className={s.tools}>
-            <motion.p variants={leftSlide}> GitForge provides project <span
+            <motion.p variants={leftSlide} className={s.mainText}> GitForge provides project <span
                 className={s.orange}>management</span> tools that enable you to
                 track progress, manage tasks, and
                 plan releases.
@@ -65,13 +65,15 @@ export const Info = () => {
             <motion.div variants={rightSlide}><img src="/images/tools.png" alt="tools"/></motion.div>
         </motion.div>
 
-        <motion.p initial="hidden" whileInView="visible" variants={appear}>To get started with GitForge, simply
+        <motion.p initial="hidden" whileInView="visible" variants={appear} className={s.mainText}>To get started with
+            GitForge, simply
             create
             an account and create a new repository. You can then
             clone the repository to your local machine and start working on your code. GitForge supports all Git
             commands and workflows, so you can use it just like any other Git hosting service.
         </motion.p>
-        <motion.p initial="hidden" whileInView="visible" variants={appear}>GitForge offers both free and paid
+        <motion.p initial="hidden" whileInView="visible" variants={appear} className={s.mainText}>GitForge offers both
+            free and paid
             plans, with the paid plans providing
             additional features such as
             increased storage, unlimited collaborators, and advanced security features. Whether you're a solo

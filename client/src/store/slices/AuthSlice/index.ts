@@ -21,6 +21,10 @@ const slice = createSlice({
             state.roles = [];
             state.username = null;
             localStorage.removeItem("access_token")
+        },
+        authResetError: (state, _) => {
+            state.isLoading = false;
+            state.error = null;
         }
     },
     extraReducers: (builder) => {

@@ -20,14 +20,19 @@ export const SignIn = () => {
 
     const authorized = useAppSelector(state => state.auth.authorized);
 
-    const {loginThunk} = useActions();
+    const {loginThunk, authResetError} = useActions();
     const {isLoading, error} = useAppSelector(state => state.auth);
 
     const [modelOpened, setModelOpened] = useState(false);
     useEffect(() => {
-        if (!isLoading && error) setModelOpened(true);
+        if (!isLoading && error)
+            setModelOpened(true);
+
     }, [isLoading, error]);
 
+    useEffect(() => () => {
+        authResetError({})
+    }, [authResetError]);
 
     const handleSignIn = useCallback(() => {
         loginThunk({login: username, password});

@@ -1,19 +1,19 @@
-import {useParams} from "react-router-dom";
-import {useGetProfileQuery} from "../../store/RTKQuery/profile.api";
-import {NotFound} from "../NotFound";
-import moment from "moment";
-import {CircleLoader} from "react-spinners";
 import React from "react";
-import s from "./style.module.scss";
+import moment from "moment";
+import {useParams} from "react-router-dom";
+import {NotFound} from "../NotFound";
+import {CircleLoader} from "react-spinners";
 import {Button} from "../../components/Button";
+import {useGetProfileQuery} from "../../store/RTKQuery/profile.api";
+import s from "./style.module.scss";
 
 export const Profile = () => {
     const {username} = useParams();
 
     const {data, error} = useGetProfileQuery(username!);
-    if (error && 'originalStatus' in error && error.originalStatus === 404) {
+    if (error && 'originalStatus' in error && error.originalStatus === 404)
         return <NotFound/>
-    }
+
 
     if (data) {
         return <div className={s.profile}>

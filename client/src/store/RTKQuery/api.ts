@@ -7,7 +7,7 @@ export const api = createApi({
         baseUrl: Url.BASE_URL,
         prepareHeaders: headers => {
             const accessToken = localStorage.getItem("access_token")!;
-            headers.set("Authorization", accessToken);
+            headers.set("Authorization", "Bearer " + accessToken);
             return headers;
         },
         credentials: "include"

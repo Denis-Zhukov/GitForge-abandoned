@@ -1,9 +1,15 @@
 import React, {useState, ChangeEvent, DragEvent} from 'react';
 import './ImageUploader.scss';
+import {useUploadProfileAvatarMutation} from "../../store/RTKQuery/profile.api";
 
 const ImageUploader: React.FC = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
+
+    const [uploadImage, {isLoading, isSuccess, error, data}] = useUploadProfileAvatarMutation();
+
+    console.log(error)
+    console.log(data)
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -31,8 +37,7 @@ const ImageUploader: React.FC = () => {
 
     const handleUpload = () => {
         if (selectedFile) {
-            // Здесь можно выполнить загрузку изображения на сервер
-            console.log(selectedFile);
+            uploadImage(selectedFile);
         }
     };
 

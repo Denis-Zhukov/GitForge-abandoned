@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {useCreateOnChangeHandler, usePageTitle} from "../../hooks";
+import {useAppSelector, useCreateOnChangeHandler, usePageTitle} from "../../hooks";
 import {Input} from "../../components/Input";
 import {Button} from "../../components/Button";
 import {useRegisterMutation} from "../../store/RTKQuery/auth.api";
@@ -9,12 +9,14 @@ import {isErrorResponseFromData} from "../../utils/isErrorReponse";
 import {SideNotification} from "../../components/SideNotification";
 import {Path} from "../../constans/Path";
 import s from "./style.module.scss";
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 
 export const SignUp = () => {
     usePageTitle("GitForge | Sign Up");
 
     const navigate = useNavigate();
+
+    const authorized = useAppSelector(state => state.auth.authorized);
 
     const [registerAccount, {
         isLoading,
@@ -60,7 +62,7 @@ export const SignUp = () => {
         navigate(Path.LOGIN);
     }, [navigate])
 
-    return <div className={s.wrapper}>
+    return authorized ? <Navigate to={Path.MAIN}/> : <div className={s.wrapper}>
         <h1 className={s.title}>Sign Up</h1>
         <div className={s.authBlock}>
 

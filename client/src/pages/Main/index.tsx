@@ -6,6 +6,9 @@ import {Path} from "../../constans/Path";
 import {Info} from "../Info";
 import {Profile} from "../Profile";
 import s from "./style.module.scss";
+import {NotFound} from "../NotFound";
+import {Settings} from "../Settings";
+import React from "react";
 
 
 export const Main = () => {
@@ -19,6 +22,10 @@ export const Main = () => {
                 <Routes>
                     <Route path={Path.MAIN} element={<Info/>}/>
                     <Route path={Path.PROFILE} element={<Profile/>}/>
+
+                    <Route path={Path.SETTINGS + "/*"} element={<Settings/>}/>
+
+                    <Route path={Path.ANY} element={<NotFound/>}/>
                 </Routes>
             </main>
             <Footer/>

@@ -6,4 +6,7 @@ export enum Path {
     LOGOUT = "/logout",
 
     PROFILE = "/:username",
+
+    SETTINGS = "/settings",
+    SETTINGS_PROFILE = "/profile",
 }

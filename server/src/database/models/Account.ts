@@ -17,9 +17,9 @@ interface AccountAttributes {
     username: string,
     email: string,
     passwordHash: string,
-    profession?: string
-    avatar?: string
-    summary?: string
+    profession?: string | null
+    avatar?: string | null
+    summary?: string | null
 }
 
 interface AccountCreationAttributes extends Optional<AccountAttributes, 'id'> {
@@ -59,7 +59,7 @@ Account.init({
         allowNull: false,
         field: "password_hash"
     },
-    
+
     avatar: {
         type: DataTypes.STRING,
         allowNull: true

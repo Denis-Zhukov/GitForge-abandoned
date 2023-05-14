@@ -16,3 +16,9 @@ profileRouter.post(
     uploadImageMiddleware.single('image'),
     ProfileController.uploadProfileAvatar
 );
+
+profileRouter.post(
+    "/profile/delete-avatar",
+    authMiddleware(),
+    ProfileController.deleteProfileAvatar
+);

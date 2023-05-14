@@ -1,9 +1,9 @@
-.image-uploader {
+.imageUploader {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  .upload-label {
+  .uploadLabel {
     padding: 10px;
     border: 2px dashed #aaa;
     border-radius: 5px;
@@ -17,7 +17,7 @@
     }
   }
 
-  .upload-button {
+  .uploadButton {
     margin-top: 10px;
     padding: 8px 16px;
     background-color: #007bff;
@@ -32,4 +32,11 @@
       background-color: #0056b3;
     }
   }
+}
+
+.uploadInput {
+  display: none;
+  width: 0;
+  height: 0;
+  opacity: 0;
 }

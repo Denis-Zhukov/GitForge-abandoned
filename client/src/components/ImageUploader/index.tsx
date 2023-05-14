@@ -1,16 +1,16 @@
 import React, {useState, ChangeEvent, DragEvent} from 'react';
-import './ImageUploader.scss';
-import {useUploadProfileAvatarMutation} from "../../store/RTKQuery/profile.api";
+import {UseMutation} from "@reduxjs/toolkit/dist/query/react/buildHooks";
+import s from './style.module.scss';
 
-const ImageUploader: React.FC = () => {
+interface Props {
+    action: UseMutation<any>
+}
+
+const ImageUploader: React.FC<Props> = ({action}) => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
 
-    const [uploadImage, {isLoading, isSuccess, error, data}] = useUploadProfileAvatarMutation();
-
-    console.log(error)
-    console.log(data)
-
+    const [sendImage, {isLoading, isSuccess, error, data}] = action();
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
             setSelectedFile(e.target.files[0]);
@@ -30,29 +30,26 @@ const ImageUploader: React.FC = () => {
         e.preventDefault();
         setIsDragging(false);
 
-        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0)
             setSelectedFile(e.dataTransfer.files[0]);
-        }
     };
 
     const handleUpload = () => {
-        if (selectedFile) {
-            uploadImage(selectedFile);
-        }
+        if (selectedFile) sendImage(selectedFile);
     };
 
     return (
         <div
-            className={`image-uploader ${isDragging ? 'dragging' : ''}`}
+            className={`${s.imageUploader} ${isDragging ? 'dragging' : ''}`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
         >
-            <label htmlFor="upload-input" className="upload-label">
+            <label htmlFor="upload-input" className={s.uploadLabel}>
                 {selectedFile ? selectedFile.name : 'Выберите файл'}
             </label>
             <input
-                id="upload-input"
+                id={s.uploadInput}
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}

@@ -12,3 +12,4 @@ server/coverage
 server/dist
 server/build
 server/repos
+server/public

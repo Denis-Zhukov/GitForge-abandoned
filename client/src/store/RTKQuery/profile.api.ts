@@ -21,6 +21,16 @@ const authApi = api.injectEndpoints({
                 })
             },
         }),
+        deleteProfileAvatar: builder.mutation({
+            query: () => ({
+                url: '/profile/delete-avatar',
+                method: 'POST'
+            })
+        }),
     })
 })
-export const {useGetProfileQuery, useUploadProfileAvatarMutation} = authApi;
+export const {
+    useGetProfileQuery,
+    useUploadProfileAvatarMutation,
+    useDeleteProfileAvatarMutation
+} = authApi;

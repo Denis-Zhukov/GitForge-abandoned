@@ -1,0 +1,50 @@
+@import "src/styles/variables";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  color: white;
+
+  .input{
+    background: white;
+    color: black;
+  }
+
+  label:has(input) {
+    display: flex;
+    flex-direction: row;
+
+    span {
+      display: block;
+      width: 100px;
+    }
+  }
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid $main-color;
+}
+
+.status {
+  font-size: 1.1rem;
+}
+
+.error {
+  color: red !important;
+}
+
+.success {
+  color: green !important;
+}

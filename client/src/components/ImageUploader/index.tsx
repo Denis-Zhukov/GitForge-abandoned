@@ -1,20 +1,17 @@
 import React, {useState, ChangeEvent, DragEvent} from 'react';
-import {UseMutation} from "@reduxjs/toolkit/dist/query/react/buildHooks";
 import s from './style.module.scss';
 
 interface Props {
-    action: UseMutation<any>
+    selectedFile: File | null,
+    setSelectedFile: React.Dispatch<React.SetStateAction<File | null>>
+    className?: string
 }
 
-const ImageUploader: React.FC<Props> = ({action}) => {
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+const ImageUploader: React.FC<Props> = ({selectedFile, setSelectedFile, className}) => {
     const [isDragging, setIsDragging] = useState(false);
-
-    const [sendImage, {isLoading, isSuccess, error, data}] = action();
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
+        if (e.target.files && e.target.files.length > 0)
             setSelectedFile(e.target.files[0]);
-        }
     };
 
     const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -22,9 +19,7 @@ const ImageUploader: React.FC<Props> = ({action}) => {
         setIsDragging(true);
     };
 
-    const handleDragLeave = () => {
-        setIsDragging(false);
-    };
+    const handleDragLeave = () => setIsDragging(false);
 
     const handleDrop = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -34,29 +29,23 @@ const ImageUploader: React.FC<Props> = ({action}) => {
             setSelectedFile(e.dataTransfer.files[0]);
     };
 
-    const handleUpload = () => {
-        if (selectedFile) sendImage(selectedFile);
-    };
-
     return (
         <div
-            className={`${s.imageUploader} ${isDragging ? 'dragging' : ''}`}
+            className={`${s.imageUploader} ${className} ${isDragging ? 'dragging' : ''}`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
         >
             <label htmlFor="upload-input" className={s.uploadLabel}>
-                {selectedFile ? selectedFile.name : 'Выберите файл'}
+                {selectedFile ? selectedFile.name : 'Select file...'}
             </label>
             <input
-                id={s.uploadInput}
+                id="upload-input"
+                className={s.uploadInput}
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
             />
-            <button className="upload-button" onClick={handleUpload}>
-                Загрузить
-            </button>
         </div>
     );
 };

@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #C4460E;
+  border-radius: 10px;
+}
+
+.file, .folder {
+  padding: .75rem;
+  color: white;
+  border: none;
+  outline: none;
+  background: transparent;
+
+  &:hover {
+    background: rgba(196, 70, 14, 0.6);
+  }
+}
+
+.file {
+
+}
+
+.folder {
+  cursor: pointer;
+}

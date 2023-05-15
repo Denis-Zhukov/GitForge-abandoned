@@ -1,0 +1,49 @@
+@import "src/styles/variables";
+
+.repositoryCard {
+  padding: 1rem;
+  border-radius: 10px;
+  border: 2px solid #C4460E;
+
+  cursor: pointer;
+
+  &:hover{
+    background: rgba(196, 70, 14, 0.6);
+  }
+
+  h3 {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.content {
+
+}
+
+.name {
+  color: #FFAD18;
+}
+
+.description {
+  color: white;
+}
+
+.languages {
+  color: white;
+  position: relative;
+  padding-left: 20px;
+
+  &::before {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    content: '';
+    display: block;
+    height: 15px;
+    width: 15px;
+    background: $main-color;
+    border-radius: 50%;
+    transform: translateY(-50%);
+  }
+}

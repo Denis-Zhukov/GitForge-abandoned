@@ -1,0 +1,26 @@
+@import "src/styles/variables";
+
+.wrapper {
+  display: flex;
+  gap: .5rem;
+
+  input {
+    padding: .5rem;
+    color: white;
+    background: transparent;
+    border: 1px solid $main-color;
+    border-radius: 7px;
+    outline: none;
+  }
+
+  button {
+    width: 60px;
+    padding: .5rem;
+    color: white;
+    background: transparent;
+    border: 1px solid $main-color;
+    border-radius: 7px;
+    outline: none;
+    cursor: pointer;
+  }
+}

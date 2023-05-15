@@ -19,6 +19,7 @@ export const DropdownMenu = () => {
             {isOpen && (
                 <div className={s.menu}>
                     <Link to={`/${username}`}>Profile</Link>
+                    <Link to={`/${username}${Path.PROFILE_REPOSITORIES}`}>Repositories</Link>
                     <Link to={Path.SETTINGS}>Settings</Link>
                     <Link to={Path.LOGOUT}>Log Out</Link>
                 </div>

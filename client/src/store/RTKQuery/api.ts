@@ -2,6 +2,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {Url} from "../../constans/Url";
 
 export const api = createApi({
+    tagTypes: ["Avatar", "Profession", "Summary", "Repositories"],
     reducerPath: "api",
     baseQuery: fetchBaseQuery({
         baseUrl: Url.BASE_URL,
@@ -14,3 +15,4 @@ export const api = createApi({
     }),
     endpoints: () => ({})
 });
+

@@ -8,6 +8,7 @@ const authApi = api.injectEndpoints({
                 url: `/profile/${username}`,
                 method: "GET"
             }),
+            providesTags: ["Avatar", "Profession", "Summary"]
         }),
         uploadProfileAvatar: builder.mutation({
             query: (file) => {
@@ -20,17 +21,39 @@ const authApi = api.injectEndpoints({
                     body: formData,
                 })
             },
+            invalidatesTags: ["Avatar"]
         }),
         deleteProfileAvatar: builder.mutation({
             query: () => ({
                 url: '/profile/delete-avatar',
                 method: 'POST'
-            })
+            }),
+            invalidatesTags: ["Avatar"]
         }),
+
+        setProfileProfession: builder.mutation({
+            query: (profession) => ({
+                url: '/profile/set-profession',
+                method: 'POST',
+                body: {profession}
+            }),
+            invalidatesTags: ["Profession"]
+        }),
+
+        setProfileSummary: builder.mutation({
+            query: (summary) => ({
+                url: '/profile/set-summary',
+                method: 'POST',
+                body: {summary}
+            }),
+            invalidatesTags: ["Summary"]
+        })
     })
 })
 export const {
     useGetProfileQuery,
     useUploadProfileAvatarMutation,
-    useDeleteProfileAvatarMutation
+    useDeleteProfileAvatarMutation,
+    useSetProfileProfessionMutation,
+    useSetProfileSummaryMutation
 } = authApi;

@@ -115,7 +115,63 @@ export class RepositoryController {
 
             res.send({...repoModel.get(), files, branches});
         } catch (e) {
-            res.status(200).json({text: "Repository is empty"});
+            res.status(200).json({text: "Repository is empty", ...repoModel.get()});
         }
+    }
+
+    static async setDescriptionRepo(req: Request<ParamsRepoName>, res: Response) {
+        const {repo} = req.params;
+        const user = res.locals.user as UserJwtPayload;
+        const description: string = req.body.description;
+
+        const accountModel = await Account.findByPk(user.id);
+
+        if (!accountModel) return res.status(401).send({error: "bad auth", details: ["bad auth"]})
+
+        const repoModel = await Repository.findOne({where: {name: repo, ownerId: accountModel.get().id}});
+        if (!repoModel) return res.status(404).send({
+            error: "Repository not found",
+            details: [`Repository '${repo}' not found`]
+        })
+
+        repoModel.set({description});
+
+        await repoModel.save();
+
+        res.json({success: true});
+    }
+
+    static async toggleFavoriteRepository(req: Request<ParamsRepoName>, res: Response) {
+        const {repo} = req.params;
+        const user = res.locals.user as UserJwtPayload;
+        const description: string = req.body.description;
+
+        const accountModel = await Account.findByPk(user.id);
+
+        if (!accountModel) return res.status(401).send({error: "bad auth", details: ["bad auth"]})
+
+        const repoModel = await Repository.findOne({where: {name: repo, ownerId: accountModel.get().id}});
+        if (!repoModel) return res.status(404).send({
+            error: "Repository not found",
+            details: [`Repository '${repo}' not found`]
+        })
+
+        repoModel.set({favorite: !repoModel.get().favorite});
+        await repoModel.save();
+
+        res.json({success: true});
+    }
+
+    static async getFavorites(req: Request<ParamsUsername>, res: Response) {
+        const {username} = req.params;
+        console.log('here')
+        const accountModel = await Account.findOne({where: {username}});
+        if (!accountModel) return res.status(404).send({
+            error: "User not found",
+            details: [`User '${username}' not found`]
+        })
+
+        const repositories = await Repository.findAll({where: {ownerId: accountModel.get().id, favorite: true}});
+        res.send(repositories || [])
     }
 }

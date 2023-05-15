@@ -8,6 +8,8 @@ interface RepositoryAttributes {
     likes: number,
     private: boolean,
     language: string | null,
+    description: string | null,
+    favorite: boolean
 }
 
 interface RepositoryCreationAttributes extends Optional<RepositoryAttributes, 'id' | 'likes' | 'private'> {
@@ -43,10 +45,22 @@ Repository.init({
         defaultValue: false,
     },
 
+    description: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: null,
+    },
+
     language: {
         type: DataTypes.STRING,
         allowNull: true,
         defaultValue: null,
+    },
+
+    favorite: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
     }
 
 }, {

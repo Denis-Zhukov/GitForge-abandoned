@@ -5,11 +5,18 @@ import {motion} from "framer-motion";
 
 interface Props {
     name: string
-    languages: string[]
+    language: string
+    description: string,
+    mouseFollow?: boolean
 }
 
 
-export const RepositoryCard: React.FC<Props> = forwardRef<HTMLDivElement, Props>(({name, languages}, ref) => {
+export const RepositoryCard: React.FC<Props> = forwardRef<HTMLDivElement, Props>(({
+                                                                                      name,
+                                                                                      language,
+                                                                                      description,
+                                                                                      mouseFollow = true
+                                                                                  }, ref) => {
     const [rotation, setRotation] = useState("");
 
     const handleMouseMove = (e: any) => {
@@ -34,14 +41,14 @@ export const RepositoryCard: React.FC<Props> = forwardRef<HTMLDivElement, Props>
         <div
             ref={ref}
             className={s.repositoryCard}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            style={{transform: rotation}}
+            onMouseMove={mouseFollow ? handleMouseMove : undefined}
+            onMouseLeave={mouseFollow ? handleMouseLeave : undefined}
+            style={mouseFollow ? {transform: rotation} : {}}
         >
             <div className={s.content}>
                 <h3 className={s.name}>{name}</h3>
-                <p className={s.description}>Desc</p>
-                <div className={s.languages}>{languages && 'Unknown'}</div>
+                <p className={s.description}>{description || '[NO DESC]'}</p>
+                <div className={s.languages}>{language || 'Unknown'}</div>
             </div>
         </div>
     );

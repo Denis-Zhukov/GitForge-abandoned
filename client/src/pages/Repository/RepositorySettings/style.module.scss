@@ -29,14 +29,6 @@
   }
 }
 
-.avatar {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid $main-color;
-}
-
 .status {
   font-size: 1.1rem;
 }
@@ -47,4 +39,16 @@
 
 .success {
   color: green !important;
+}
+
+.confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .btns {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
 }

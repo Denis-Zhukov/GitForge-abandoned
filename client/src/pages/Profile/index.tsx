@@ -1,6 +1,6 @@
 import React, {useCallback} from "react";
 import moment from "moment";
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {NotFound} from "../NotFound";
 import {MButton} from "../../components/Button";
 import {Path} from "../../constans/Path";
@@ -10,21 +10,25 @@ import {Loader} from "../../components/Loader";
 import {motion} from "framer-motion";
 import {appear, leftSlide, rightSlide} from "../../utils/animations";
 import s from "./style.module.scss";
+import {useGetFavoritesRepositoriesQuery} from "../../store/RTKQuery/repository.api";
+import {RepositoryCard} from "../../components/RepositoryCard";
 
 export const Profile = () => {
-    const {username} = useParams();
-    const myUsername = useAppSelector(state => state.auth.username);
     const navigate = useNavigate();
 
-    const handleEditClick = useCallback(() => {
-        navigate(`${Path.SETTINGS}${Path.SETTINGS_PROFILE}`);
-    }, [navigate]);
+    const {username} = useParams();
+    const myUsername = useAppSelector(state => state.auth.username);
 
     const {data, error} = useGetProfileQuery(username!);
+    const {data: repos} = useGetFavoritesRepositoriesQuery(username!);
 
     const handleRepositoriesClick = useCallback(() => {
         navigate(`/${username}${Path.PROFILE_REPOSITORIES}`);
     }, [navigate, username]);
+
+    const handleEditClick = useCallback(() => {
+        navigate(`${Path.SETTINGS}${Path.SETTINGS_PROFILE}`);
+    }, [navigate]);
 
     if (error && 'originalStatus' in error && error.originalStatus === 404)
         return <NotFound/>
@@ -53,11 +57,26 @@ export const Profile = () => {
                 </div>
             </motion.section>
 
-            <motion.section initial="hidden" whileInView="visible" viewport={{once: true}}>
-                <MButton onClick={handleRepositoriesClick}
-                         variants={leftSlide}
-                         custom={5}
-                >Repositories</MButton>
+            <motion.section initial="hidden" whileInView="visible" viewport={{once: true}} className={s.favorites}>
+                <MButton
+                    onClick={handleRepositoriesClick}
+                    variants={rightSlide}
+                    custom={5}
+                    className={s.allRepoBtn}
+                >All repositories</MButton>
+                {
+                    repos?.map(repo => (
+                        <Link to={`/${username}/${repo.name}`} key={repo.id}
+                              style={{textDecoration: "none", color: "white"}}>
+                            <RepositoryCard
+                                name={repo.name}
+                                language={repo.language}
+                                description={repo.description}
+                                mouseFollow={false}
+                            />
+                        </Link>
+                    ))
+                }
             </motion.section>
         </div>
     }

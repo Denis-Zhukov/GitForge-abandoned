@@ -48,7 +48,17 @@
   }
 }
 
-@media screen and  (max-width: $mobile){
+.favorites {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .allRepoBtn{
+    align-self: flex-end;
+  }
+}
+
+@media screen and (max-width: $mobile) {
   .infoBlock {
     flex-direction: column-reverse !important;
     align-items: center;

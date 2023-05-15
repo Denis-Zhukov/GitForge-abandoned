@@ -23,7 +23,8 @@ export const Repositories = () => {
                 <Link
                     key={repo.id}
                     to={`/${username}/${repo.name}`}>
-                    <MRepositoryCard name={repo.name} languages={repo.languages} initial="hidden" whileInView="visible"
+                    <MRepositoryCard name={repo.name} language={repo.language} description={repo.description}
+                                     initial="hidden" whileInView="visible"
                                      variants={appear}/>
                 </Link>
             )

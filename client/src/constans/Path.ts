@@ -8,6 +8,7 @@ export enum Path {
     PROFILE = "/:username",
     PROFILE_REPOSITORIES = "/repositories",
     PROFILE_CREATE_REPOSITORY = "/create-repository",
+    PROFILE_REPOSITORY_SETTINGS="/settings",
 
     SETTINGS = "/settings",
     SETTINGS_PROFILE = "/profile",

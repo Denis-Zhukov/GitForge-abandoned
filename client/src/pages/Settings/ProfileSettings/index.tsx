@@ -58,7 +58,7 @@ export const ProfileSettings = () => {
     return <div className={s.wrapper}>
 
         <div className={s.container}>
-            <img className={s.avatar} src={data?.avatar} alt="Avatar"/>
+            <img className={s.avatar} src={data?.avatar || "/images/defaultAvatar.png"} alt="Avatar"/>
             <ImageUploader className={s.loader} selectedFile={avatar} setSelectedFile={setAvatar}/>
             <Button onClick={handleUploadAvatarClick}>Upload</Button>
             <Button onClick={handleDeleteAvatarClick}>Delete</Button>

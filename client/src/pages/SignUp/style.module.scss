@@ -48,6 +48,10 @@
     &::placeholder {
       font-size: 18px;
     }
+
+    &:focus{
+      box-shadow: 0 4px 2px -2px $main-color;
+    }
   }
 
   .button {
@@ -66,6 +70,10 @@
 
 .redBorder {
   border-bottom: 2px solid red !important;
+
+  &:focus{
+    box-shadow: 0 4px 2px -2px red !important;
+  }
 }
 
 

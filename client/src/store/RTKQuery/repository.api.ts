@@ -14,7 +14,7 @@ const repositoryApi = api.injectEndpoints({
                 url: `/${username}/${repository}`,
                 method: "GET"
             }),
-            providesTags: ["Repositories"]
+            providesTags: ["Repository"]
         }),
         createRepository: builder.mutation({
             query: (name: string) => ({
@@ -23,7 +23,19 @@ const repositoryApi = api.injectEndpoints({
                 body: {name}
             }),
             invalidatesTags: ["Repositories"]
+        }),
+        deleteRepository: builder.mutation({
+            query: (repo: string) => ({
+                url: `/delete-repo/${repo}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Repositories"]
         })
     })
 })
-export const {useCreateRepositoryMutation, useGetRepositoriesQuery, useGetRepositoryQuery} = repositoryApi;
+export const {
+    useCreateRepositoryMutation,
+    useGetRepositoriesQuery,
+    useGetRepositoryQuery,
+    useDeleteRepositoryMutation
+} = repositoryApi;

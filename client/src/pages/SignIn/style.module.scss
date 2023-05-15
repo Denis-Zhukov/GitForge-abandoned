@@ -44,9 +44,14 @@
     outline: none;
     border: none;
     border-bottom: 2px solid $main-color;
+    position: relative;
 
     &::placeholder {
       font-size: 18px;
+    }
+
+    &:focus {
+      box-shadow: 0 4px 2px -2px $main-color;
     }
   }
 
@@ -63,5 +68,3 @@
     }
   }
 }
-
-

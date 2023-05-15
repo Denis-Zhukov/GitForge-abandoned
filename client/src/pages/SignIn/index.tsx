@@ -1,13 +1,15 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {Navigate} from "react-router-dom";
 import {useActions, useAppSelector, useCreateOnChangeHandler, usePageTitle} from "../../hooks";
-import {Input} from "../../components/Input";
-import {Button} from "../../components/Button";
-import {CircleLoader} from "react-spinners";
+import {MInput} from "../../components/Input";
+import {MButton} from "../../components/Button";
 import {Modal} from "../../components/Modal";
 import {isErrorResponse} from "../../utils/isErrorReponse";
 import {Path} from "../../constans/Path";
+import {Loader} from "../../components/Loader";
 import s from "./style.module.scss";
+import {motion} from "framer-motion";
+import {appear} from "../../utils/animations";
 
 export const SignIn = () => {
     usePageTitle("GitForge | Sign In");
@@ -42,6 +44,11 @@ export const SignIn = () => {
         setModelOpened(false)
     }, []);
 
+    const handleKeyPress = (e: KeyboardEvent) => {
+        if (e.key === 'Enter')
+            handleSignIn();
+    };
+
     const errors = useMemo(() => {
         if (isErrorResponse(error)) {
             return error.details.map((detail) => <p key={detail}>{detail}</p>)
@@ -49,23 +56,41 @@ export const SignIn = () => {
     }, [error]);
 
     return authorized ? <Navigate to={Path.MAIN}/> :
-        <div className={s.wrapper}>
-            <h1 className={s.title}>Sign In</h1>
+        <motion.div className={s.wrapper} initial="hidden" whileInView="visible" viewport={{once: true}}>
+            <motion.h1 className={s.title} variants={appear} custom={{delay: 0}}>Sign In</motion.h1>
             <div className={s.authBlock}>
 
-                {isLoading && <CircleLoader className={s.spinner} color="white"/>}
+                {isLoading && <Loader className={s.spinner}/>}
 
-                <Input id="username-input" className={s.input} type="text" value={username} onChange={onChangeUsername}
-                       disabled={isLoading} placeholder="username"/>
+                <MInput
+                    className={s.input}
+                    type="text"
+                    value={username}
+                    onChange={onChangeUsername}
+                    onKeyPress={handleKeyPress}
+                    placeholder="username"
+                    disabled={isLoading}
+                    variants={appear}
+                    custom={{delay: 1}}
+                />
 
-                <Input id="password-input" className={s.input} type="password" value={password}
-                       onChange={onChangePassword} disabled={isLoading} placeholder="password"/>
+                <MInput
+                    className={s.input}
+                    type="password"
+                    value={password}
+                    onChange={onChangePassword}
+                    onKeyPress={handleKeyPress}
+                    disabled={isLoading}
+                    placeholder="password"
+                    variants={appear}
+                    custom={{delay: 1.5}}/>
 
-                <Button className={s.button} onClick={handleSignIn} disabled={isLoading}>Sign In</Button>
+                <MButton className={s.button} onClick={handleSignIn} disabled={isLoading} variants={appear}
+                         custom={{delay: 2}}>Sign In</MButton>
             </div>
 
             <Modal open={modelOpened} onClose={handleCloseModel}>
                 <div>{errors}</div>
             </Modal>
-        </div>
+        </motion.div>
 }

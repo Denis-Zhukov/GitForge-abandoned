@@ -6,6 +6,12 @@
 }
 
 .file, .folder {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+
+  font-size: 1.1rem;
   padding: .75rem;
   color: white;
   border: none;
@@ -18,9 +24,14 @@
 }
 
 .file {
-
 }
 
 .folder {
   cursor: pointer;
+}
+
+.file > img, .folder > img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }

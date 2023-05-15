@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {forwardRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import s from './style.module.scss';
+import {motion} from "framer-motion";
 
 interface Props {
     name: string
@@ -8,7 +9,7 @@ interface Props {
 }
 
 
-const RepositoryCard: React.FC<Props> = ({name, languages}) => {
+export const RepositoryCard: React.FC<Props> = forwardRef<HTMLDivElement, Props>(({name, languages}, ref) => {
     const [rotation, setRotation] = useState("");
 
     const handleMouseMove = (e: any) => {
@@ -27,12 +28,11 @@ const RepositoryCard: React.FC<Props> = ({name, languages}) => {
         setRotation(rotationStyle);
     };
 
-    const handleMouseLeave = () => {
-        setRotation("");
-    };
+    const handleMouseLeave = () => setRotation("");
 
     return (
         <div
+            ref={ref}
             className={s.repositoryCard}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -45,10 +45,10 @@ const RepositoryCard: React.FC<Props> = ({name, languages}) => {
             </div>
         </div>
     );
-};
+});
+
+export const MRepositoryCard = motion(RepositoryCard);
 
 RepositoryCard.propTypes = {
     name: PropTypes.string.isRequired,
 };
-
-export default RepositoryCard;

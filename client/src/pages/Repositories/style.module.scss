@@ -1,7 +1,16 @@
+@import "src/styles/variables";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding-top: 1rem;
+}
+
 .repositories {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
+  grid-gap: 1rem;
   margin: 0;
   padding: 0;
 
@@ -10,5 +19,25 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+}
+
+.addRepo {
+  display: block;
+  width: 50px;
+  text-align: center;
+  padding: .5rem;
+  background: $main-color;
+  text-decoration: none;
+  color: white;
+}
+
+.empty {
+  font-size: 1.5rem;
+  color: white;
+
+
+  span {
+    text-transform: capitalize;
   }
 }

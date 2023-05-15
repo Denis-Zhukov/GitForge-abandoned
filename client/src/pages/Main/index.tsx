@@ -12,6 +12,7 @@ import React from "react";
 import {Repositories} from "../Repositories";
 import {CreateRepository} from "../CreateRepository";
 import {Repository} from "../Repository";
+import {RepositorySettings} from "../Repository/RepositorySettings";
 
 
 export const Main = () => {
@@ -24,13 +25,16 @@ export const Main = () => {
             <main className={s.main}>
                 <Routes>
                     <Route path={Path.MAIN} element={<Info/>}/>
-                    <Route path={Path.PROFILE} element={<Profile/>}/>
-                    <Route path={`/:username${Path.PROFILE_REPOSITORIES}`} element={<Repositories/>}/>
-                    <Route path={`${Path.PROFILE}${Path.PROFILE_CREATE_REPOSITORY}`} element={<CreateRepository/>}/>
-                    <Route path={`/:username/:repository`} element={<Repository/>}/>
 
+                    <Route path={Path.PROFILE} element={<Profile/>}/>
                     <Route path={Path.SETTINGS + "/*"} element={<Settings/>}/>
 
+                    <Route path={`/:username${Path.PROFILE_REPOSITORIES}`} element={<Repositories/>}/>
+                    <Route path={`${Path.PROFILE}${Path.PROFILE_CREATE_REPOSITORY}`} element={<CreateRepository/>}/>
+
+                    <Route path={`/:username/:repository`} element={<Repository/>}/>
+                    <Route path={`/:username/:repository${Path.PROFILE_REPOSITORY_SETTINGS}`} element={<RepositorySettings/>}/>
+                    
                     <Route path={Path.ANY} element={<NotFound/>}/>
                 </Routes>
             </main>

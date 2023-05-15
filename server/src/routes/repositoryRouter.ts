@@ -4,8 +4,19 @@ import {createRepoSchema} from "../utils/validations/Repositories/createRepoSche
 import {RepositoryController} from "../controllers/RepositoryController.js";
 import {Router} from "express";
 import {deleteRepoSchema} from "../utils/validations/Repositories/deleteRepoSchema.js";
+import {getReposSchema} from "../utils/validations/Repositories/getReposSchema.js";
 
 export const repositoryRouter = Router();
+
+repositoryRouter.get(
+    "/:username/repos",
+    RepositoryController.getRepos
+);
+
+repositoryRouter.get(
+    "/:username/:repo",
+    RepositoryController.getRepo
+);
 
 repositoryRouter.post(
     "/create-repo",

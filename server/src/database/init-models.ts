@@ -60,15 +60,15 @@ Account.hasMany(IssueMessage, {foreignKey: "account_id"})
 
 
 await Account.sync({alter:true});
-await Role.sync();
-await AccountRoles.sync();
+await Role.sync({alter:true});
+await AccountRoles.sync({alter:true});
 
-await Confirmation.sync();
+await Confirmation.sync({alter:true});
 
-await Session.sync();
+await Session.sync({alter:true});
 
-await Repository.sync();
-await Collaborator.sync();
+await Repository.sync({alter:true});
+await Collaborator.sync({alter:true});
 
-await Issue.sync();
-await IssueMessage.sync();
+await Issue.sync({alter:true});
+await IssueMessage.sync({alter:true});

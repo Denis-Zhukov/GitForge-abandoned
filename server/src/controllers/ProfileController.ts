@@ -39,7 +39,7 @@ export class ProfileController {
         userModel!.set({avatar: avatarPath});
         userModel?.save();
 
-        res.sendStatus(200);
+        res.json({success: true});
     }
 
     public static async deleteProfileAvatar(req: Request, res: Response) {
@@ -56,6 +56,26 @@ export class ProfileController {
         }
         userModel!.set({avatar: null});
         userModel?.save();
-        res.sendStatus(200);
+        res.json({success: true});
+    }
+
+    public static async setProfileProfession(req: Request, res: Response) {
+        const user: UserJwtPayload = res.locals.user;
+        const {profession} = req.body;
+        const userModel = await Account.findByPk(user.id);
+
+        userModel!.set({profession});
+        userModel?.save();
+        res.json({success: true});
+    }
+
+    public static async setProfileSummary(req: Request, res: Response) {
+        const user: UserJwtPayload = res.locals.user;
+        const {summary} = req.body;
+        const userModel = await Account.findByPk(user.id);
+
+        userModel!.set({summary});
+        userModel?.save();
+        res.json({success: true});
     }
 }

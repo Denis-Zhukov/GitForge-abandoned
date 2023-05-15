@@ -7,7 +7,7 @@ interface RepositoryAttributes {
     name: string,
     likes: number,
     private: boolean,
-    languages: string[],
+    language: string | null,
 }
 
 interface RepositoryCreationAttributes extends Optional<RepositoryAttributes, 'id' | 'likes' | 'private'> {
@@ -43,10 +43,10 @@ Repository.init({
         defaultValue: false,
     },
 
-    languages: {
+    language: {
         type: DataTypes.STRING,
         allowNull: true,
-        defaultValue: "",
+        defaultValue: null,
     }
 
 }, {

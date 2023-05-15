@@ -41,7 +41,7 @@ export class RepositoryController {
 
             await repo.save();
 
-            res.sendStatus(200);
+            res.status(201).json({success: true});
         } catch (e) {
             res.send(e);
         }
